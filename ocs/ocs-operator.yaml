@@ -1,0 +1,24 @@
+# Create operator group
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-storage-operatorgroup
+  namespace: openshift-storage
+spec:
+  targetNamespaces:
+  - openshift-storage
+
+# Subscribe to OCS operator
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: ocs-operator
+  namespace: openshift-storage
+spec:
+  channel: "stable-4.6"
+  installPlanApproval: Automatic
+  name: ocs-operator
+  source: custom-ocs-catsrc
+  sourceNamespace: openshift-marketplace

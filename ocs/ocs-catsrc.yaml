@@ -1,0 +1,11 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: custom-ocs-catsrc
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  displayName: Custom OCS Operator
+  image: quay.io/rhceph-dev/ocs-olm-operator:latest-4.6
+  publisher: Red Hat PE
