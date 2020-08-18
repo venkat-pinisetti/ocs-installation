@@ -1,0 +1,23 @@
+apiVersion: local.storage.openshift.io/v1
+kind: LocalVolume
+metadata:
+ name: local-disks
+ namespace: local-storage
+spec:
+ logLevel: Normal
+ managementState: Managed
+ nodeSelector:
+   nodeSelectorTerms:
+   - matchExpressions:
+     - key: kubernetes.io/hostname
+       operator: In
+       values:
+       - test1-thzqp-worker-0-4dhsv
+       - test1-thzqp-worker-0-b24fb
+       - test1-thzqp-worker-0-xdjlj
+ storageClassDevices:
+ - devicePaths:
+   - /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-0-0-0
+   storageClassName: localblock-sc
+   volumeMode: Block
+
