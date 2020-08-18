@@ -1,0 +1,86 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+ namespace: openshift-storage
+ name: example-storagecluster
+spec:
+ manageNodes: false
+ monDataDirHostPath: /var/lib/rook
+ storageDeviceSets:
+   - name: example-deviceset-1
+     count: 1
+     replica: 1
+     resources:
+       requests: {}
+       limits: {}
+     placement:
+       nodeAffinity:
+         requiredDuringSchedulingIgnoredDuringExecution:
+           nodeSelectorTerms:
+             - matchExpressions:
+                 - key: cluster.ocs.openshift.io/openshift-storage
+                   operator: Exists
+                 - key: topology.rook.io/rack
+                   operator: In
+                   values:
+                     - rack1
+       podAntiAffinity:
+         preferredDuringSchedulingIgnoredDuringExecution:
+           - podAffinityTerm:
+               labelSelector:
+                 matchExpressions:
+                   - key: app
+                     operator: In
+                     values:
+                       - rook-ceph-osd
+               topologyKey: topology.rook.io/rack
+             weight: 100
+     dataPVCTemplate:
+       spec:
+         storageClassName: localblock-sc
+         accessModes:
+           - ReadWriteOnce
+         volumeMode: Block
+         resources:
+           requests:
+             storage: 1Gi
+     portable: false
+   - name: example-deviceset-2
+     count: 1
+     replica: 1
+     resources:
+       requests: {}
+       limits: {}
+     placement:
+       nodeAffinity:
+         requiredDuringSchedulingIgnoredDuringExecution:
+           nodeSelectorTerms:
+             - matchExpressions:
+                 - key: cluster.ocs.openshift.io/openshift-storage
+                   operator: Exists
+                 - key: topology.rook.io/rack
+                   operator: In
+                   values:
+                     - rack2
+       podAntiAffinity:
+         preferredDuringSchedulingIgnoredDuringExecution:
+           - podAffinityTerm:
+               labelSelector:
+                 matchExpressions:
+                   - key: app
+                     operator: In
+                     values:
+                       - rook-ceph-osd
+               topologyKey: topology.rook.io/rack
+             weight: 100
+     dataPVCTemplate:
+       spec:
+         storageClassName: localblock-sc
+         accessModes:
+           - ReadWriteOnce
+         volumeMode: Block
+         resources:
+           requests:
+             storage: 500Mi
+     portable: false
+

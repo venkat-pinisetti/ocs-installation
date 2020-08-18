@@ -1,0 +1,84 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+ name: ocs-storagecluster
+ namespace: openshift-storage
+spec:
+ resources:
+   mon:
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+   mds:
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+   rgw:
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+   mgr:
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+   noobaa-core:
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+   noobaa-db:
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+ monDataDirHostPath: /var/lib/rook
+ storageDeviceSets:
+   - config: {}
+     count: 1
+     dataPVCTemplate:
+       spec:
+         # Replace the storageClass name with storageClassname
+         # pointing to the localPV prepared
+         storageClassName: localblock-sc
+         accessModes:
+           - ReadWriteOnce
+         resources:
+           requests:
+             # Replace the size with the size of localPV prepared
+             storage: 1Gi
+         volumeMode: Block
+     portable: false
+     name: ocs-deviceset
+     placement: {}
+     portable: false
+     replica: 3
+     resources:
+       requests:
+         cpu: null
+         memory: null
+       limits:
+         cpu: null
+         memory: null
+
